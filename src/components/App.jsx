@@ -7,27 +7,38 @@ export default class App extends Component {
     name: '',
   };
 
-  handleAddContact = evt => {
-    console.log('add');
-    evt.preventDefault();
-
-    this.setState({
-      contacts: [
-        ...this.state.contacts,
-        {
-          id: crypto.randomUUID(),
-          name: this.state.name,
-        },
-      ],
-    });
+  handleChangeInputDate = title => {
+    this.setState({ name: title });
+    console.log(title);
   };
-
+  handleAddItem = title => {
+    console.log(title);
+    this.setState(prevState => ({
+      contacts: [
+        ...prevState.contacts,
+        { name: title, id: crypto.randomUUID() },
+      ],
+    }));
+  };
   render() {
-    const { contact, name } = this.state;
+    const { contacts, name } = this.state;
     return (
       <>
-        <ContactName onclick={this.handleAddContact} />
+        <header>
+          <div>Logo</div>
+        </header>
+        <ContactName
+          onAddItem={this.handleAddItem}
+          inputValue={name}
+          onChangeData={this.handleChangeInputDate}
+          contacts={contacts}
+          title="Contacts"
+        />
       </>
     );
   }
 }
+
+// const wrapper = styled.div`
+//   padding: 15px 40px;
+// `;

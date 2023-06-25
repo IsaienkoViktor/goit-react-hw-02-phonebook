@@ -1,29 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export const ContactName = ({}) => {
+export const ContactName = ({
+  contacts,
+  title,
+  onChangeData,
+  inputValue,
+  onAddItem,
+}) => {
+  const handleSubmit = e => {
+    e.preventDefault();
+    onAddItem(inputValue);
+    onChangeData('');
+  };
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
           <input
             type="text"
             name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
+            onChange={e => onChangeData(e.target.value)}
+            value={inputValue}
           />
-          <button type="submit" name="Add">
-            Add contact
-          </button>
+          <button>Add contact</button>
         </label>
       </form>
-      <h2>Contacts</h2>
+      <h2>{title}</h2>
+      <ul>
+        {contacts.map(item => (
+          <li key={item.id}>{item.title}</li>
+        ))}
+      </ul>
     </>
   );
 };
-
-// ContactName.propTypes = {
-//   name: PropTypes.string.isRequired
-//   id: PropTypes.func.isRequired,
-// };
